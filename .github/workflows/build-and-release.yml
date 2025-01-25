@@ -9,18 +9,13 @@ jobs:
   setup:
     name: Setup Environment
     runs-on: ubuntu-latest
-    outputs:
-      go_path: ${{ steps.go.outputs.gopath }}
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Go
-      id: go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.23.2
+      uses: actions/setup-go@v2 # No specific Go version specified
 
   build-android:
     name: Build Android App
@@ -47,7 +42,7 @@ jobs:
       run: ./gradlew build
 
     - name: Upload APK
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3 # Updated to v3
       with:
         name: android-app
         path: app/build/outputs/apk/release/app-release.apk
@@ -71,7 +66,7 @@ jobs:
       run: xcodebuild -exportArchive -archivePath $PWD/build/MyApp.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $PWD/build
 
     - name: Upload IPA
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3 # Updated to v3
       with:
         name: ios-app
         path: build/*.ipa
